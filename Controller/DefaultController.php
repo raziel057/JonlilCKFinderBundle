@@ -27,17 +27,12 @@ class DefaultController extends Controller
         return new Response('funka');
     }
 
-    public function initAction (Request $request, $service)
+    public function initAction (Request $request)
     {
 
-        switch ($service) {
-            case 'php':
-                $connector = $this->get('jonlil.ckfinder.connector.php');
-                break;
-            case 's3':
-                $connector = $this->get('jonlil.ckfinder.connector.s3');
-                break;
-        }
+
+        $connector = $this->get('jonlil_ckfinder.connector');
+
 
         return new Response();
     }

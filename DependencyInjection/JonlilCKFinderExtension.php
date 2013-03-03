@@ -28,6 +28,22 @@ class JonlilCKFinderExtension extends Extension
             $loader->load(sprintf('%s.xml', $service));
         }
 
+        switch ($config['service']) {
+            case 'php':
+                $container->setAlias('jonlil_ckfinder.connector', 'jonlil.ckfinder.connector.php');
+                break;
+            case 's3':
+                $container->setAlias('jonlil_ckfinder.connector', 'jonlil.ckfinder.connector.s3');
+                break;
+        }
+
+        $container->setParameter('jonlil_ckfinder.license', array(
+            'key' => $config['license']['key'],
+            'name' => $config['license']['name']
+        ));
+
+        $container->setParameter('jonlil_ckfinder.baseUrl', $config['baseUrl']);
+
         $container->setParameter('twig.form.resources', array_merge(
             $container->getParameter('twig.form.resources'),
             array('JonlilCKFinderBundle:Form:ckfinder_widget.html.twig')

@@ -30,6 +30,34 @@ class Configuration implements ConfigurationInterface
         // configure your bundle. See the documentation linked above for
         // more information on that topic.
 
+
+        $rootNode
+            ->children()
+                ->scalarNode('password')->defaultNull()->end()
+                ->scalarNode('username')->defaultNull()->end()
+                ->scalarNode('service')->defaultValue('php')->end()
+                ->scalarNode('baseUrl')
+                    ->isRequired()
+                    ->cannotBeEmpty()
+                ->end()
+                ->arrayNode('license')
+                    ->addDefaultsIfNotSet(array(
+                        'name' => '',
+                        'key' => ''
+                    ))
+                    ->children()
+                        ->scalarNode('name')
+                            ->defaultValue('')
+                        ->end()
+                        ->scalarNode('key')
+                            ->defaultValue('')
+                        ->end()
+                    ->end()
+                ->end()
+            ->end()
+
+        ;
+
         return $treeBuilder;
     }
 }
