@@ -1,0 +1,25 @@
+{
+    "name": "jonlil/ckfinder-bundle",
+    "type": "symfony-bundle",
+    "description": "",
+    "keywords": ["CKFinder", "CKEditor"],
+    "authors": [
+        {
+            "name": "Jonas Liljestrand",
+            "email": "jonas.liljestrand@gmail.com"
+        }
+    ],
+    "require": {
+        "egeloen/ckeditor-bundle": "2.1.*",
+        "php": ">=5.3.0",
+        "symfony/framework-bundle": ">=2.1",
+        "ckfinder/ckfinder": "2.3.1"
+    },
+    "repositories": [
+        {"type": "vcs", "url": "git@gitlab.returngreat.com:jonas/ckfinder.git"}
+    ],
+    "autoload": {
+        "psr-0": { "Jonlil\\CKFinderBundle": "" }
+    },
+    "target-dir": "Jonlil/CKFinderBundle"
+}
