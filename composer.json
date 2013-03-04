@@ -13,7 +13,7 @@
         "egeloen/ckeditor-bundle": "2.1.*",
         "php": ">=5.3.0",
         "symfony/framework-bundle": ">=2.1",
-        "jonas/ckfinder": "dev-master"
+        "ckfinder/ckfinder": "dev-master"
     },
     "repositories": [
         {"type": "vcs", "url": "git@gitlab.returngreat.com:jonas/ckfinder.git"}
