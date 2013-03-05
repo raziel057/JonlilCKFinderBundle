@@ -34,6 +34,14 @@ class JonlilCKFinderExtension extends Extension
                 break;
             case 's3':
                 $container->setAlias('jonlil_ckfinder.connector', 'jonlil.ckfinder.connector.s3');
+                $container->setParameter('jonlil_ckfinder.amazon', array(
+                    'secret' => $config['secret'],
+                    'bucket' => $config['bucket'],
+                    'access_key' => $config['accessKey'],
+                    'base_url' => $config['baseUrl'],
+                    'base_dir' => $config['baseDir']
+                ));
+                $container->setParameter('jonlil_ckfinder.baseDir', $config['baseDir']);
                 break;
         }
 

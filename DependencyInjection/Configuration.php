@@ -33,9 +33,11 @@ class Configuration implements ConfigurationInterface
 
         $rootNode
             ->children()
-                ->scalarNode('password')->defaultNull()->end()
-                ->scalarNode('username')->defaultNull()->end()
+                ->scalarNode('accessKey')->defaultNull()->end()
+                ->scalarNode('secret')->defaultNull()->end()
+                ->scalarNode('bucket')->defaultNull()->end()
                 ->scalarNode('service')->defaultValue('php')->end()
+                ->scalarNode('baseDir')->defaultNull()->end()
                 ->scalarNode('baseUrl')
                     ->isRequired()
                     ->cannotBeEmpty()
@@ -55,7 +57,6 @@ class Configuration implements ConfigurationInterface
                     ->end()
                 ->end()
             ->end()
-
         ;
 
         return $treeBuilder;

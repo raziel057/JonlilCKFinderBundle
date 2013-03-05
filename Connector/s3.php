@@ -12,16 +12,121 @@ namespace Jonlil\CKFinderBundle\Connector;
 use Symfony\Component\HttpFoundation\Request;
 
 
-class s3
+class s3 extends AbstractConnector
 {
-    protected $parameters;
-    protected $request;
+    private $mustHave = array('base_url', 'base_dir', 'access_key', 'secret', 'bucket');
 
-    public function __construct(Request $request, array $parametes = array())
+    protected function build_config ()
     {
-        $this->parameters = $parametes;
-        $this->request = $request;
 
+        foreach($this->mustHave as $key) {
+            if (!array_key_exists($key, $this->parameters['amazon'])) {
+                throw new \Exception(sprintf('Amazon %s must be set', $key));
+            }
+        }
+
+        $GLOBALS['config']['AmazonS3'] = array(
+            'AccessKey' => $this->parameters['amazon']['access_key'],
+            'SecretKey' => $this->parameters['amazon']['secret'],
+            'Bucket' => $this->parameters['amazon']['bucket']
+        );
+
+        $GLOBALS['config']['LicenseName'] = $this->parameters['license']['name'];
+        $GLOBALS['config']['LicenseKey'] = $this->parameters['license']['key'];
+
+        $GLOBALS['config']['Thumbnails'] = Array(
+            'url' => $this->parameters['baseUrl'] . '/' . $this->parameters['amazon']['bucket'] . '/_thumbs',
+            'directory' => $this->parameters['baseDir'] . '_thumbs',
+            'enabled' => true,
+            'directAccess' => false,
+            'maxWidth' => 100,
+            'maxHeight' => 100,
+            'bmpSupported' => false,
+            'quality' => 80
+        );
+
+        $GLOBALS['config']['Images'] = Array(
+            'maxWidth' => 1600,
+            'maxHeight' => 1200,
+            'quality' => 80
+        );
+
+        $GLOBALS['config']['RoleSessionVar'] = 'CKFinder_UserRole';
+
+        $GLOBALS['config']['AccessControl'][] = Array(
+            'role' => '*',
+            'resourceType' => '*',
+            'folder' => '/',
+
+            'folderView' => true,
+            'folderCreate' => true,
+            'folderRename' => true,
+            'folderDelete' => true,
+
+            'fileView' => true,
+            'fileUpload' => true,
+            'fileRename' => true,
+            'fileDelete' => true
+        );
+
+        $GLOBALS['config']['DefaultResourceTypes'] = '';
+
+        $GLOBALS['config']['ResourceType'][] = Array(
+            'name' => 'Files',				// Single quotes not allowed
+            'url' => $this->parameters['baseUrl'] . '/' . $this->parameters['amazon']['bucket'] . '/files',
+            'directory' => $this->parameters['baseDir'] . 'files',
+            'maxSize' => 0,
+            'allowedExtensions' => '7z,aiff,asf,avi,bmp,csv,doc,docx,fla,flv,gif,gz,gzip,jpeg,jpg,mid,mov,mp3,mp4,mpc,mpeg,mpg,ods,odt,pdf,png,ppt,pptx,pxd,qt,ram,rar,rm,rmi,rmvb,rtf,sdc,sitd,swf,sxc,sxw,tar,tgz,tif,tiff,txt,vsd,wav,wma,wmv,xls,xlsx,zip',
+            'deniedExtensions' => ''
+        );
+
+        $GLOBALS['config']['ResourceType'][] = Array(
+            'name' => 'Images',
+            'url' => $this->parameters['baseUrl'] . '/' . $this->parameters['amazon']['bucket'] . '/images',
+            'directory' => $this->parameters['baseDir'] . 'images',
+            'maxSize' => 0,
+            'allowedExtensions' => 'bmp,gif,jpeg,jpg,png',
+            'deniedExtensions' => ''
+        );
+
+        $GLOBALS['config']['ResourceType'][] = Array(
+            'name' => 'Flash',
+            'url' => $this->parameters['baseUrl'] . '/' . $this->parameters['amazon']['bucket'] . '/flash',
+            'directory' => $this->parameters['baseDir'] . 'flash',
+            'maxSize' => 0,
+            'allowedExtensions' => 'swf,flv',
+            'deniedExtensions' => ''
+        );
+
+        $GLOBALS['config']['CheckDoubleExtension'] = true;
+        $GLOBALS['config']['DisallowUnsafeCharacters'] = false;
+        $GLOBALS['config']['FilesystemEncoding'] = 'UTF-8';
+        $GLOBALS['config']['SecureImageUploads'] = true;
+        $GLOBALS['config']['CheckSizeAfterScaling'] = true;
+        $GLOBALS['config']['HtmlExtensions'] = array('html', 'htm', 'xml', 'js');
+        $GLOBALS['config']['HideFolders'] = Array(".*", "CVS");
+        $GLOBALS['config']['HideFiles'] = Array(".*");
+        $GLOBALS['config']['ChmodFiles'] = 0777 ;
+        $GLOBALS['config']['ChmodFolders'] = 0755 ;
+        $GLOBALS['config']['ForceAscii'] = false;
+        $GLOBALS['config']['XSendfile'] = false;
+
+        $GLOBALS['config']['plugin_imageresize']['smallThumb'] = '90x90';
+        $GLOBALS['config']['plugin_imageresize']['mediumThumb'] = '120x120';
+        $GLOBALS['config']['plugin_imageresize']['largeThumb'] = '180x180';
+
+    }
+
+
+    protected function req()
+    {
+        parent::req();
+
+        require_once CKFINDER_CONNECTOR_LIB_DIR.'/Utils/AmazonS3.php';
+    }
+
+    protected function setup_defined_params()
+    {
         define('IN_CKFINDER', true);
         define('CKFINDER_CONNECTOR_ERROR_NONE',0);
         define('CKFINDER_CONNECTOR_ERROR_CUSTOM_ERROR',1);
@@ -53,8 +158,8 @@ class s3
         define('CKFINDER_CONNECTOR_ERROR_CONNECTOR_DISABLED',500);
         define('CKFINDER_CONNECTOR_ERROR_THUMBNAILS_DISABLED',501);
 
-        define('CKFINDER_CONNECTOR_DEFAULT_USER_FILES_PATH', $this->parameters['userfiles']);
-        define('CKFINDER_CONNECTOR_LANG_PATH', $this->parameters['path'] . "/core/connector/s3/lang");
+        define('CKFINDER_CONNECTOR_DEFAULT_USER_FILES_PATH', $this->parameters['baseUrl'] . '/'.$this->parameters['amazon']['bucket'].'/');
+        define('CKFINDER_CONNECTOR_LANG_PATH', $this->parameters['path'] . $this->parameters['connector'] . "lang");
         define('CKFINDER_CONNECTOR_CONFIG_FILE_PATH', __DIR__ . "/../config.php");
 
         if (version_compare(phpversion(), '6', '>=')) {
@@ -64,45 +169,11 @@ class s3
             define('CKFINDER_CONNECTOR_PHP_MODE', 5);
         }
 
-        define('CKFINDER_CONNECTOR_LIB_DIR', $this->parameters['path'] . "/core/connector/s3/php5");
+        define('CKFINDER_CONNECTOR_LIB_DIR', $this->parameters['path'] . $this->parameters['connector'] . "php5");
 
         define('CKFINDER_CHARS', '123456789ABCDEFGHJKLMNPQRSTUVWXYZ');
         define('CKFINDER_REGEX_IMAGES_EXT', '/\.(jpg|gif|png|bmp|jpeg)$/i');
         define('CKFINDER_REGEX_INVALID_PATH', ",(/\.)|[[:cntrl:]]|(//)|(\\\\)|([\\:\*\?\"\<\>\|]),");
         define('CKFINDER_REGEX_INVALID_FILE', ",[[:cntrl:]]|[/\\:\*\?\"\<\>\|],");
-
-
-        $this->req();
-    }
-
-    protected function req ()
-    {
-        require_once CKFINDER_CONNECTOR_LIB_DIR . "/CommandHandler/CommandHandlerBase.php";
-        /**
-         * singleton factory
-         */
-        require_once CKFINDER_CONNECTOR_LIB_DIR . "/Core/Factory.php";
-        /**
-         * utils class
-         */
-        require_once CKFINDER_CONNECTOR_LIB_DIR . "/Utils/Misc.php";
-        /**
-         * hooks class
-         */
-        require_once CKFINDER_CONNECTOR_LIB_DIR . "/Core/Hooks.php";
-
-        $utilsSecurity =& \CKFinder_Connector_Core_Factory::getInstance("Utils_Security");
-        $utilsSecurity->getRidOfMagicQuotes();
-
-        require_once CKFINDER_CONNECTOR_CONFIG_FILE_PATH;
-
-        \CKFinder_Connector_Core_Factory::initFactory();
-        $connector =& \CKFinder_Connector_Core_Factory::getInstance("Core_Connector");
-
-        if($this->request->query->has('command')) {
-            $connector->executeCommand($this->request->query->get('command'));
-        } else {
-            $connector->handleInvalidCommand();
-        }
     }
 }
