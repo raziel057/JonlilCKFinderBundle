@@ -25,7 +25,26 @@ public function registerBundles()
 }
 ```
 
-2) Usage
+3) Configuration
+--------------------------
+
+For usage with amazon s3
+```yaml
+# app/config.yml
+
+jonlil_ck_finder:
+    license:
+        key: ""
+        name: ""
+    baseDir: "/"
+    baseUrl: "http://s3.amazonaws.com"
+    service: "s3"
+    accessKey: ""
+    secret: ""
+    bucket: ""
+```
+
+3) Usage
 --------------------------
 ```php
 
