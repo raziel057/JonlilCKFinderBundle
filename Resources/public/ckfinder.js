@@ -824,7 +824,7 @@
                 h.ie8 = !!document.documentMode;
                 h.ie8Compat = document.documentMode == 8;
                 h.ie7Compat = i == 7 && !document.documentMode || document.documentMode == 7;
-                h.ie6Compat = i < 7 || h.quirks;
+                h.ie6Compat = false;
             }
             if (h.gecko) {
                 var j = f.match(/rv:([\d\.]+)/);
