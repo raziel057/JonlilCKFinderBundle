@@ -70,7 +70,6 @@ class s3 extends AbstractConnector
         );
 
         $GLOBALS['config']['DefaultResourceTypes'] = '';
-
         $GLOBALS['config']['ResourceType'][] = Array(
             'name' => 'Files',				// Single quotes not allowed
             'url' => $this->parameters['baseUrl'] . '/' . $this->parameters['amazon']['bucket'] . '/files',
