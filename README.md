@@ -25,7 +25,7 @@ public function registerBundles()
 }
 ```
 
-3) Configuration
+2) Configuration
 --------------------------
 
 ##### For usage with amazon s3
