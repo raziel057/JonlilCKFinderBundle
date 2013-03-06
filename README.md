@@ -1,5 +1,8 @@
 #### JonlilCKFinderBundle
 
+For documentation on CKFinder http://cksource.com/ckfinder
+If you planing to configure ckeditor a little bit more :) https://github.com/egeloen/IvoryCKEditorBundle
+
 1) Installation
 -------------------------
 
@@ -70,6 +73,8 @@ public function buildForm (FormBuilderInterface $builder, array $options)
 }
 ```
 
-
+4) Todos
+---------------------------
+Fix amazon s3 thumbnails - Refer to this project https://github.com/jonlil/ckfinder
 
 
