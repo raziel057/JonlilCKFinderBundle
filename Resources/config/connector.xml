@@ -6,7 +6,7 @@
 
     <parameters>
         <parameter key="jonlil.ckfinder.baseUrl">/ckfinder/userfiles/</parameter>
-        <parameter key="jonlil.ckfinder.path">%kernel.root_dir%/../vendor/ckfinder/ckfinder</parameter>
+        <parameter key="jonlil.ckfinder.path">%kernel.root_dir%/../vendor/jonlil/ckfinder</parameter>
     </parameters>
 
     <services>
