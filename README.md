@@ -1,6 +1,6 @@
 #### JonlilCKFinderBundle
 
-For documentation on CKFinder http://cksource.com/ckfinder
+For documentation on CKFinder http://cksource.com/ckfinder    
 If you planing to configure ckeditor a little bit more :) https://github.com/egeloen/IvoryCKEditorBundle
 
 1) Installation
