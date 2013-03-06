@@ -16,7 +16,7 @@
         "ckfinder/ckfinder": "dev-master"
     },
     "repositories": [
-        {"type": "vcs", "url": "git@gitlab.returngreat.com:jonas/ckfinder.git"}
+        {"type": "vcs", "url": "https://github.com/jonlil/ckfinder"}
     ],
     "autoload": {
         "psr-0": { "Jonlil\\CKFinderBundle": "" }
