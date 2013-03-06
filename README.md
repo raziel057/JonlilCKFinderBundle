@@ -28,7 +28,7 @@ public function registerBundles()
 3) Configuration
 --------------------------
 
-For usage with amazon s3
+##### For usage with amazon s3
 ```yaml
 # app/config.yml
 
@@ -42,6 +42,16 @@ jonlil_ck_finder:
     accessKey: ""
     secret: ""
     bucket: ""
+```
+##### For usage with native php storage
+```yaml
+jonlil_ck_finder:
+    license: # optional, can be used in demo mode also
+        key: ""
+        name: ""
+    baseDir: "%assetic.read_from%"
+    baseUrl: "/userfiles/"  # path where your files will be stored
+    service: "php"
 ```
 
 3) Usage
