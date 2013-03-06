@@ -10,7 +10,7 @@
     "jonlil/ckfinder": "dev-master"
 },
 "repositories": [
-    {"type": "vcs", "url": "https://github.com/jonlil/JonlikCKFinderBundle"},
+    {"type": "vcs", "url": "https://github.com/jonlil/JonlilCKFinderBundle"},
     {"type": "vcs", "url": "https://github.com/jonlil/ckfinder"}
 ]
 ```
