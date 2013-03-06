@@ -8,14 +8,8 @@ If you planing to configure ckeditor a little bit more :) https://github.com/ege
 
 ```json
 "require": {
-    "egeloen/ckeditor-bundle": "2.1.*",
-    "jonlil/ckfinder-bundle": "dev-master",
-    "jonlil/ckfinder": "dev-master"
-},
-"repositories": [
-    {"type": "vcs", "url": "https://github.com/jonlil/JonlilCKFinderBundle"},
-    {"type": "vcs", "url": "https://github.com/jonlil/ckfinder"}
-]
+    "jonlil/ckfinder-bundle": "dev-master"
+}
 ```
 
 ```php
@@ -31,9 +25,18 @@ public function registerBundles()
 2) Configuration
 --------------------------
 
+##### Routing
+```yaml
+# app/config/routing.yml
+
+ck_finder:
+    resource: "@JonlilCKFinderBundle/Resources/config/routing/routing.yml"
+    prefix: /ckfinder
+```
+
 ##### For usage with amazon s3
 ```yaml
-# app/config.yml
+# app/config/config.yml
 
 jonlil_ck_finder:
     license:
