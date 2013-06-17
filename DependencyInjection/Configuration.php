@@ -37,7 +37,7 @@ class Configuration implements ConfigurationInterface
                 ->scalarNode('secret')->defaultNull()->end()
                 ->scalarNode('bucket')->defaultNull()->end()
                 ->scalarNode('service')->defaultValue('php')->end()
-                ->scalarNode('baseDir')->defaultNull()->end()
+                ->scalarNode('baseDir')->end()
                 ->scalarNode('baseUrl')
                     ->isRequired()
                     ->cannotBeEmpty()

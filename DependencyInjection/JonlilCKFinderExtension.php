@@ -24,10 +24,16 @@ class JonlilCKFinderExtension extends Extension
 
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
 
-        foreach(array('services', 'form', 'connector') as $service) {
+        foreach(array('services', 'form') as $service) {
             $loader->load(sprintf('%s.xml', $service));
         }
 
+        if($config['service'] == 's3'){
+            $loader->load('s3.xml');
+        }
+        else{
+            $loader->load('connector.xml');
+        }
         switch ($config['service']) {
             case 'php':
                 $container->setAlias('jonlil_ckfinder.connector', 'jonlil.ckfinder.connector.php');
