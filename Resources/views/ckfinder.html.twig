@@ -92,8 +92,7 @@
                 action = get( 'action' );
 
             var parentWindow = ( window.parent == window ) ? window.opener : window.parent;
-            var full_url = '{{ url('home') }}';
-            config.basePath = full_url.replace(document.location.origin + '/','');
+            config.basePath = '{{ url('home') }}';
             switch ( action )
             {
                 case 'js':
