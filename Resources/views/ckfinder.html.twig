@@ -92,7 +92,8 @@
                 action = get( 'action' );
 
             var parentWindow = ( window.parent == window ) ? window.opener : window.parent;
-            config.basePath = '{{ url('home') }}';
+            var full_url = '{{ url('home') }}';
+            config.basePath = full_url.replace(document.location.origin + '/','');
             switch ( action )
             {
                 case 'js':
@@ -111,7 +112,7 @@
                     {
                         config.selectActionFunction = function( fileUrl, data )
                         {
-                            parentWindow['CKEDITOR'].tools.callFunction( funcNum, fileUrl, data );
+                            parentWindow['CKEDITOR'].tools.callFunction( funcNum, config.basePath + fileUrl, data );
                         };
 
                         config.selectThumbnailActionFunction = config.selectActionFunction;
