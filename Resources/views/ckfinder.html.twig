@@ -93,7 +93,8 @@
 
             var parentWindow = ( window.parent == window ) ? window.opener : window.parent;
             var full_url = '{{ url('home') }}';
-            config.basePath = full_url.replace(document.location.origin + '/','');
+            config.basePath = full_url.replace(document.location.origin,'');
+            config.basePath = config.basePath.substring(0,config.basePath.length - 1);
             switch ( action )
             {
                 case 'js':
