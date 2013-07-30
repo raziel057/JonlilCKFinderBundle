@@ -1,5 +1,5 @@
 {
-    "name": "devthanatos/ckfinder-bundle",
+    "name": "jonlil/ckfinder-bundle",
     "type": "symfony-bundle",
     "description": "",
     "keywords": ["CKFinder", "CKEditor"],
